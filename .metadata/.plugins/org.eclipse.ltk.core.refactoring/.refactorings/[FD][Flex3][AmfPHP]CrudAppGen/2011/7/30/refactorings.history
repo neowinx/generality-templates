@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;[FD][Flex3][AmfPHP]CrudAppGen/gen-project.ftl&apos; to &apos;gen-project.opt&apos;" description="Rename resource &apos;gen-project.ftl&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="gen-project.ftl" name="gen-project.opt" stamp="1311463645440" updateReferences="true"/>
+</session>

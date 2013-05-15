@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;[FD][Flex3][AmfPHP]CrudAppGen/project/AmfPHPFlexCrud/src/MainScript.as&apos; to &apos;MainScript.as.ftl&apos;" description="Rename resource &apos;MainScript.as&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="project/AmfPHPFlexCrud/src/MainScript.as" name="MainScript.as.ftl" stamp="1306645025930" updateReferences="true"/>
+</session>

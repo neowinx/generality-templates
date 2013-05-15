@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" layout="horizontal" width="100%" height="100%">
+	<mx:Parallel id="MyHideEffect" duration="300">
+		<mx:Move xBy="300" />
+		<mx:Fade />
+	</mx:Parallel>
+	<mx:Fade id="MyShowEffect" duration="300" alphaFrom="0" />
+</mx:Module>

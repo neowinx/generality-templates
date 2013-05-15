@@ -1,0 +1,49 @@
+<#-- PROJECT SPECIFIC SETTINGS -->
+
+<#-- CHANGE THESE SETTINGS ACCORDING TO YOUR ENV -->
+<#assign serverDir = "F:\\xampp\\htdocs\\demo">
+<#assign serverUrl = "http://localhost/demo/">
+<#assign productionServerUrl = "http://oneguysolutions.com/demo/">
+<#assign flexSDKHome = "F:\\flex341">
+<#assign databaseName = "demo">
+<#assign applicationTitle = "Generality Demo">
+<#macro connectionSettings>
+	$hostname_conn = "localhost";
+	$database_conn = "${databaseName}";
+	$username_conn = "root";
+	$password_conn = "";
+	$mysql = mysql_connect($hostname_conn, $username_conn, $password_conn);
+	mysql_select_db( $database_conn );
+	mysql_query("SET NAMES 'utf8'");
+	
+	include "functions.inc.php";
+</#macro>
+
+<#-- 
+  LoginLogic
+  Used to generate the login logic for the system.
+  Set this to [] if yo dont want the login logic to be generated.
+  Both columns (username, password) needs to be setted and on the same database table.  
+  -->
+<#assign loginLogic = [
+
+]>
+
+<#--
+  Filters
+  List here the tables and the columns that will generate filters for the datagrid.
+  Use the "*" character in 'tableName' or 'columns' hash to generate filters for all tables
+  or columns respectively. Currently ONLY text columns can generate filters.
+  -->
+<#assign filters = [
+
+]>
+
+<#--
+  GoogleMapModule
+  List here the tables and the columns that will work with a googleMap widget in the Edit.
+  Both columns for the latitude and longitude coordinates have to be entered.
+  -->
+<#assign googleMapsModules = [
+
+]>

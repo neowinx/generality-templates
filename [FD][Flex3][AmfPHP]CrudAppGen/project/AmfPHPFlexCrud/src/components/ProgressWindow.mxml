@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Processing..." x="168" y="86" borderAlpha="0.75">
+
+    <mx:Script>
+        <![CDATA[       
+            import mx.managers.PopUpManager;
+            import mx.controls.Text;
+        ]]>
+    </mx:Script>
+
+    <mx:HBox>
+        <mx:ProgressBar indeterminate="true" />
+    </mx:HBox>
+
+</mx:TitleWindow>

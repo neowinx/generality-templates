@@ -1,0 +1,40 @@
+<!-- [EC][SWT][JPA]GenGen -->
+<#include "gen-include.ftl" />
+<#assign projectName = "dncp-menu-admin-wb" />
+<#assign mainPackage = "py.gov.contrataciones.menu" />
+<#assign entityPackage = mainPackage + ".entity" />
+<#assign dialogsPackage = mainPackage + ".swt.dialog" />
+<#assign workspaceDir = "/home/pflores/PROJECTS/DNCP/ECLIPSE_HOME/WORKSPACES/indigo/dncp-trunk/" />
+<#assign applicationTitle = "MenuAdmin - Administrador de Menu de la DNCP" />
+
+<#-- When editing, for string fields, blank values are persisted as null, otherwise blank values are treated as blank strings -->
+<#assign blankStringsAreNull = true />
+
+<#-- Generates de structure of the menu according of this list FORMAT: menuStructure = [ MENU_TITLE1, [TABLE_NAME1, TABLENAME2, ...], MENU_TITLE2, [TABLE_NAME1, TABLENAME2, ...] MENU_TITLE2, [TABLE_NAME1, TABLENAME2, ...]]
+ -->
+<#-- assign menuStructure = [
+	"Parametros", ["PROVEEDORES", "COMPRADORES", "ORIGEN", "RAZAS", "TIPOS_FERIAS", "MONEDAS", "USUARIOS", "CONFIGURACIONES" ],
+	"Operaciones", ["FERIAS", "GUIAS", "LOTES", "PAGOS"]
+] / -->
+
+<#-- About dialog text -->
+<#assign aboutDialogText = "Menu Admin para la Administración del Menu de la DNCP\\r\\n\\r\\nCopyrights (c) 2012 - www.codelab.com.py" />
+
+<#-- Password fields. FORMAT: passwordfields = [ TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], ...] -->
+<#assign passwordFields = [ ] />
+
+<#-- Static values fields. -->
+<#-- assign staticValuesFields = [
+	"GUIAS", ["TIPO", [ ["P", "Pagadas"], ["S", "Simples"] ] ],
+	"LOTES", ["ESTADO", [ ["P", "Pendiente de Factura"], ["F", "Facturado"], ["D", "Disponible"] ] ],
+	"COMPRADORES", ["REPRODUCTOR", [ ["S", "SI"], ["N", "NO"] ], "INVERNADA", [ ["S", "SI"], ["N", "NO"] ], "CONSUMO", [ ["S", "SI"], ["N", "NO"] ] ],
+	"PROVEEDORES", ["REPRODUCTOR", [ ["S", "SI"], ["N", "NO"] ], "INVERNADA", [ ["S", "SI"], ["N", "NO"] ], "CONSUMO", [ ["S", "SI"], ["N", "NO"] ] ]
+] / -->
+
+<#-- Filters. Generate filters for these columns (Only String fields are supported for this option).
+  Valid Options:
+  1) Value not set. Dont generate filters.
+  2) [ ]. Generate filters for all columns of all tables (sometimes generates a messy code). 
+  3) [ TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], ...]. Generates filters for the selected tables. 
+-->
+<#assign filterColumns = [ ] />

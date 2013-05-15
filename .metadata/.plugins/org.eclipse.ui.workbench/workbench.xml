@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbench progressCount="5" version="2.0">
+<workbenchAdvisor/>
+<window height="612" maximized="true" width="800" x="404" y="189">
+<fastViewData fastViewLocation="1024"/>
+<perspectiveBar/>
+<coolbarLayout locked="0">
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="53" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.annotationNavigation" itemType="typeToolBarContribution" x="91" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.navigation" itemType="typeToolBarContribution" x="38" y="22"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="com.oneguysolutions.generality.editors.GeneralityOptionsMultiPageEditor" itemType="typePlaceholder" x="38" y="22"/>
+<coolItem id="com.oneguysolutions.generality.editors.GenProjectOptionsEditor" itemType="typePlaceholder" x="38" y="22"/>
+<coolItem id="com.oneguysolutions.generality.editor3" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="com.oneguysolutions.generality.editors.MultiPageEditor" itemType="typeToolBarContribution" x="38" y="22"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="61" y="22"/>
+</coolbarLayout>
+<page aggregateWorkingSetId="Aggregate for window 1300491996400" focus="true" label="Workspace - RCP Perspective">
+<editors>
+<editorArea activeWorkbook="DefaultEditorWorkbook">
+<info part="DefaultEditorWorkbook">
+<folder appearance="1" expanded="2">
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+</editorArea>
+</editors>
+<views>
+<view id="com.oneguysolutions.generality.views.navigatorView" partName="Templates Projects">
+<viewState CommonNavigator.LINKING_ENABLED="0" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="1"/>
+</view>
+</views>
+<perspectives activePart="com.oneguysolutions.generality.views.navigatorView" activePerspective="com.oneguysolutions.generality.perspective">
+<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="com.oneguysolutions.generality.Perspective" id="com.oneguysolutions.generality.perspective" label="RCP Perspective"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.annotationNavigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.navigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo"/>
+<alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
+<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<view id="com.oneguysolutions.generality.views.navigatorView"/>
+<fastViewBars/>
+<viewLayoutRec id="com.oneguysolutions.generality.views.navigatorView" showTitle="true" standalone="true"/>
+<layout>
+<mainWindow>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@ebdfff">
+<folder activePageID="com.oneguysolutions.generality.views.navigatorView" appearance="2" expanded="2">
+<page content="com.oneguysolutions.generality.views.navigatorView" label="Templates Projects"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="282" ratioRight="94" relationship="2" relative="org.eclipse.ui.internal.ViewStack@ebdfff">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@722c99" ratio="0.5" ratioLeft="385" ratioRight="385" relationship="2" relative="org.eclipse.ui.internal.ViewStack@ebdfff">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.29833546" ratioLeft="233" ratioRight="548" relationship="2" relative="org.eclipse.ui.internal.ViewStack@ebdfff"/>
+</mainWindow>
+</layout>
+</perspective>
+</perspectives>
+<workingSets/>
+<navigationHistory/>
+<input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
+</page>
+<workbenchWindowAdvisor/>
+<actionBarAdvisor/>
+<trimLayout/>
+</window>
+<mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="Main.java.ftl" tooltip="[EC][SWT][JPA]GenGen/main/Main.java.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/main/Main.java.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="TableNameCamelCaseListDialog.java.ftl" tooltip="[EC][SWT][JPA]GenGen/dialog/TableNameCamelCaseListDialog.java.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/dialog/TableNameCamelCaseListDialog.java.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="gen-include.ftl" tooltip="[EC][SWT][JPA]GenGen/gen-include.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/gen-include.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="TableNameCamelCaseEditDialog.java.ftl" tooltip="[EC][SWT][JPA]GenGen/dialog/TableNameCamelCaseEditDialog.java.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/dialog/TableNameCamelCaseEditDialog.java.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.oneguysolutions.generality.editors.GeneralityOptionsMultiPageEditor" name="project.opt" tooltip="[EC][SWT][JPA]GenGen/project.opt">
+<persistable path="/[EC][SWT][JPA]GenGen/project.opt"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="gen-options.ftl" tooltip="[EC][SWT][JPA]GenGen/gen-options.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/gen-options.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="TableNameCamelCase.java.ftl" tooltip="[EC][SWT][JPA]GenGen/entity/TableNameCamelCase.java.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/entity/TableNameCamelCase.java.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.oneguysolutions.generality.editors.GeneralityOptionsMultiPageEditor" name="gen-project.opt" tooltip="[FD][Flex3][AmfPHP]CrudAppGen/gen-project.opt">
+<persistable path="/[FD][Flex3][AmfPHP]CrudAppGen/gen-project.opt"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="tableNameModule.mxml.ftl" tooltip="[FD][Flex3][AmfPHP]CrudAppGen/project/AmfPHPFlexCrud/src/modules/tableNameModule.mxml.ftl">
+<persistable path="/[FD][Flex3][AmfPHP]CrudAppGen/project/AmfPHPFlexCrud/src/modules/tableNameModule.mxml.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="deploy-dev.bat.ftl" tooltip="[FD][Flex3][AmfPHP]CrudAppGen/deploy-dev.bat.ftl">
+<persistable path="/[FD][Flex3][AmfPHP]CrudAppGen/deploy-dev.bat.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="baseUrl.as.ftl" tooltip="[FD][Flex3][AmfPHP]CrudAppGen/project/AmfPHPFlexCrud/src/modules/baseUrl.as.ftl">
+<persistable path="/[FD][Flex3][AmfPHP]CrudAppGen/project/AmfPHPFlexCrud/src/modules/baseUrl.as.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.oneguysolutions.generality.editors.GeneralityOptionsMultiPageEditor" name="project.opt" tooltip="[EC][Seam220GA]GenGen/project.opt">
+<persistable path="/[EC][Seam220GA]GenGen/project.opt"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="TableNameCamelCaseHome.java.ftl" tooltip="[EC][Seam220GA]GenGen/hot/TableNameCamelCaseHome.java.ftl">
+<persistable path="/[EC][Seam220GA]GenGen/hot/TableNameCamelCaseHome.java.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.jboss.ide.eclipse.freemarker.editor.FreemarkerEditor" name="AboutDialog.java.ftl" tooltip="[EC][SWT][JPA]GenGen/dialog/AboutDialog.java.ftl">
+<persistable path="/[EC][SWT][JPA]GenGen/dialog/AboutDialog.java.ftl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="README.txt" tooltip="[EC][SWT][JPA]GenGen/README.txt">
+<persistable path="/[EC][SWT][JPA]GenGen/README.txt"/>
+</file>
+</mruList>
+</workbench>

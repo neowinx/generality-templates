@@ -1,0 +1,44 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="loginForm">
+
+        <table width="100%">
+				<tr>
+					<td align="center"><h:panelGrid columns="1">
+
+						<rich:panel style="width:400px">
+							<f:facet name="header">#{messages['login_panel_header']}</f:facet>
+
+							<div class="dialog"><h:panelGrid columns="2"
+								rowClasses="prop" columnClasses="name,value">
+								<h:outputLabel for="username">#{messages['login_panel_dialog_username']}</h:outputLabel>
+								<h:inputText id="username" value="#{credentials.username}" />
+								<h:outputLabel for="password">#{messages['login_panel_dialog_password']}</h:outputLabel>
+								<h:inputSecret id="password" value="#{credentials.password}" />
+								<h:outputLabel for="rememberMe">#{messages['login_panel_dialog_remember_me']}</h:outputLabel>
+								<h:selectBooleanCheckbox id="rememberMe"
+									value="#{rememberMe.enabled}" />
+							</h:panelGrid></div>
+
+						</rich:panel>
+
+						<div class="actionButtons"><h:commandButton id="submit"
+							value="#{messages['login_panel_login_button']}" action="#{identity.login}" /></div>
+					</h:panelGrid></td>
+				</tr>
+			</table>
+
+    </h:form>
+
+ </ui:define>
+</ui:composition>

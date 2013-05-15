@@ -1,0 +1,144 @@
+<#include "gen-include.ftl" />
+<#assign pathSeparator = "/" />
+<#assign warProjectName = "sigef-war" />
+<#assign mainPackage = "py.com.codelab.pnud.sigef" />
+<#assign entityPackage = mainPackage + ".entities" />
+<#assign hotPackage = mainPackage + ".session" />
+<#assign enumPackage = mainPackage + ".enums" />
+<#assign factoriesPackage = mainPackage + ".factories" />
+<#assign workspaceDir = "/home/pflores/PROJECTS/PNUD/ECLIPSE_HOME/indigo/sigef-trunk" />
+<#assign ejbProjectName = "sigef-ejb" />
+<#assign ejbModuleName = "ejbModule" />
+<#assign applicationTitle = "Sistema de Informacion y Gestion del Empleo y Formacion Profesional" />
+
+<#-- If this value its true, codelab jsf/richfaces/seam components from codelab-seam-ui will be used for some components in the view -->
+<#assign useCodelabComponents = true />
+
+<#-- If true, a separate directory per table will be generated for the view files (*.xhtml, *.pages.xml...) -->
+<#assign dirPerTable = true />
+
+<#-- The direcotry prefix that will contain the generated views -->
+<#assign dirPerTablePrefix = "adm" />
+
+<#--
+  If true the column name from the local table will be used as the attribute name.
+  If false the attribute name will be the name of imported entity (with a number at the end to avoid duplicate attributes names).
+ -->
+<#assign attributesFromColumnNames = false />
+
+<#-- If true the necessary code for the use of sequence will be generated. -->
+<#assign useSequencesForIds = true />
+
+<#-- Use factories for selectItems -->
+<#assign useFactoriesForSelectItems = false />
+
+<#-- Add @Lob annotations to blob columns -->
+<#assign lobInBlobColumns = true />
+
+<#-- Default Context For Generated Factories. Accepted values are "Application", "Session" or "Event".
+  If not defined, "Event" its used by default. Use this to establish access list values from a less database invassive 
+  approach (Application) to a more database invassive approach (Event). The Application context its not
+  recommended for tables that will hold large ammount of records.
+ -->
+<#assign defaultContextForFactories = "Application" />
+
+<#-- Image Upload Columns  -->
+<#assign imageUploadColumns = [
+	"INSTITUCION", ["LOGO"],
+	"ITEM_CURSO", ["CERTIFICADO"],
+	"PERSONA", ["FOTO"]
+ ] />
+
+<#-- Static values fields. -->
+<#assign staticValuesFields = [
+	"ITEM_CURSO_PERSONA", 
+		[
+			"TIPO", [ ["1", "DOCENTE"], ["2", "SUPERVISOR"], ["3", "TUTOR"], ["4", "REPRESENTANTE"], ["5", "AUTORIZADOR"] ] ,
+			"CONDICION", [ ["1", "DOCENTE TITULAR"], ["2", "DOCENTE AUXILIAR"], ["3", "DOCENTE SUPLENTE"], ["4", "SUPERVISOR"] ]
+		],
+	"FERIADO", 
+		[
+			"PERIODICIDAD", [ ["1", "ANUAL"], ["2", "DIARIA"] ] 
+		],
+	"FORMULARIO_1", 
+		[
+			"COND_LOCAL", [ ["1", "PROPIO"], ["2", "ALQUILADO"], ["3", "CEDIDO EN PRESTAMO"] ],
+			"AULA_ESPACIO", [ ["1", "ADECUADA"], ["2", "INADECUADA"] ],
+			"AULA_HIGIENE", [ ["1", "BUENO"], ["2", "ACEPTABLE"], ["3", "INSUFICIENTE"] ] 
+		],
+	"FORMULARIO_2", 
+		[
+			"METODOLOGIA", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ],
+			"IDEAS", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ],
+			"CONOCIMIENTOS", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ],
+			"TAREA_ORDENADA", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ],
+			"ACTITUD", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ],
+			"EQUIPOS", [ ["1", "SI"], ["2", "NO"], ["3", "PARCIAL"] ],
+			"EQUIPAM_DISPOSICION", [ ["1", "SI"], ["2", "NO"], ["3", "PARCIAL"] ],
+			"EQUIPAM_CANT", [ ["1", "SI"], ["2", "NO"], ["3", "PARCIAL"] ],
+			"INSUMOS_PRACTICA", [ ["1", "SI"], ["2", "NO"], ["3", "PARCIAL"] ],
+			"MATERIAL_GRATIS", [ ["1", "SI"], ["2", "NO"], ["3", "PARCIAL"] ],
+			"PARTICIP_ACTIVA", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ]
+			"PARTICIP_CONFORM", [ ["1", "MUY BUENO"], ["2", "BUENO"], ["3", "ACEPTABLE"] ]
+		],
+	"BENEFICIARIO", 
+		[
+			"ESTADO_CIVIL", [ ["1", "SOLTERO"], ["2", "CASADO"], ["3", "DIVORCIADO"], ["4", "VIUDO"], ["5", "UNION LIBRE"], ["6", "SEPARADO"] ]
+			"CONDICION", [ ["1", "TITULAR"], ["2", "SUPLENTE"] ]
+		],
+	"PERSONA", 
+		[
+			"SEXO", [ ["1", "FEMENINO"], ["2", "MASCULINO"] ]
+		]
+] />
+
+<#-- The audit columns for the automatic generation of the audit code -->
+<#assign auditColumns = [
+
+] />
+
+<#-- The user table for the automatic generation of the auditory -->
+<#assign auditUserTable = "usuario" />
+
+<#-- Generates automatically the permission restrictions/options based in the data below.
+  Leave it [] to ignore this option.
+  FORMAT: permissionData = [PERMISSION_TABLE, PERMISSION_COLUMNS] 
+-->
+<#assign permissionData = []>
+
+<#-- List of tables that generates a list of values selection instead of selectOneMenus.
+  Useful for tables that will hold large ammount of records.
+-->
+<#assign lovTables = [
+	"ACTOR", ["ID_PERSONA"],
+	"BENEFICIARIO", ["ID_PERSONA"],
+	"ITEM_CURSO_PERSONA", ["ID_PERSONA"]
+] />
+
+<#-- List of tables that generates Master/Detail forms -->
+<#assign masterDetailTables = [
+	"INSTITUCION", ["ACTOR", "CURSO", "SEDE"],
+	"CURSO", ["ITEM_CURSO"],
+	"DEPARTAMENTO", ["DISTRITO"],
+	"DISTRITO", ["LOCALIDAD"],
+	"ITEM_CURSO", ["ITEM_CURSO_HORARIOS", "FORMULARIO_1", "FORMULARIO_2", "ITEM_CURSO_ACTIVIDAD", "CONTENIDO_PROGRAMATICO"],
+	"ITEM_CURSO_BENEFICIARIO", ["PASANTIA", "ASISTENCIA"]
+] />
+
+<#-- List of columns that will generate a rich:editor -->
+<#assign editorColumns = [
+	"ITEM_CURSO", ["CUERPO_MAIL"] 
+] />
+
+<#-- Generates de structure of the menu according of this list
+  FORMAT: menuStructure = [ MENU_TITLE1, [TABLE_NAME1, TABLENAME2, ...],
+                            MENU_TITLE2, [TABLE_NAME1, TABLENAME2, ...]
+                            MENU_TITLE2, [TABLE_NAME1, TABLENAME2, ...]
+                          ]
+ -->
+<#assign menuStructure = [
+	"Mantenimiento", ["ACTOR", "TIPO_ACTOR", "INSTITUCION", "PROGRAMA", "DEPARTAMENTO", "DISTRITO", "LOCALIDAD", "FERIADO", "PERSONA", "ESTADO_ITEM_CURSO", "ESTADO_ITEM_CURSO_BENEFICIARIO", "DOCUMENTO", "EMPRESA"],
+	"Gestion", ["LISTAR_BENEFICIARIOS_INSCRIPTOS", "CURSO", "ITEM_CURSO", "MODIFICAR_CURSOS", "BENEFICIARIO"],
+	"Seguridad", ["USUARIO", "PERFIL", "CONFIGURACION"],
+	"Reportes", []
+] />

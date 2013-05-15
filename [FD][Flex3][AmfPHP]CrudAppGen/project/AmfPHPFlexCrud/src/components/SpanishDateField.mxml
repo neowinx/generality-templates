@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DateField xmlns:mx="http://www.adobe.com/2006/mxml"
+	dayNames="[Dom, Lun, Mar, Mie, Jue, Vie, Sab]"
+	monthNames="[Enero, Febrero, Marzo, Abril, Mayo, Junio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]"
+	firstDayOfWeek="1"
+	formatString = "DD/MM/YYYY">
+	
+</mx:DateField>
