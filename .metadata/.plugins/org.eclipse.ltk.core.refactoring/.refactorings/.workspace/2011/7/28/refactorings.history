@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;[EC][Seam220GA]GenGen/edit.xhtml.ftl&apos;" deleteContents="false" description="Delete resource &apos;[EC][Seam220GA]GenGen/edit.xhtml.ftl&apos;" element1="/[EC][Seam220GA]GenGen/edit.xhtml.ftl" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1309880341358"/>
-</session>

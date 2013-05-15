@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;GenericTemplate/poroperties.txt.ftl&apos; to &apos;properties.txt.ftl&apos;" description="Rename resource &apos;poroperties.txt.ftl&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="poroperties.txt.ftl" name="properties.txt.ftl" stamp="1305681683556" updateReferences="true"/>
-</session>

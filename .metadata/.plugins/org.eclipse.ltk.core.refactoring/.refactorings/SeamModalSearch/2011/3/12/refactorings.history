@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;SeamModalSearch/m.mpe&apos; to &apos;m.ftl&apos;" description="Rename resource &apos;m.mpe&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="m.mpe" name="m.ftl" stamp="1300501364018" updateReferences="true"/>
-</session>

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;[EC][Seam220GA]GenGen/permissions-postgresql.sql&apos; to &apos;permissions-postgresql.sql.ftl&apos;" description="Rename resource &apos;permissions-postgresql.sql&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="permissions-postgresql.sql" name="permissions-postgresql.sql.ftl" stamp="1312901078093" updateReferences="true"/>
-</session>

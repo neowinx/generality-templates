@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;[FD][Flex3][AmfPHP]CrudAppGen/deploy.bat.ftl&apos; to &apos;deploy-dev.bat.ftl&apos;" description="Rename resource &apos;deploy.bat.ftl&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="deploy.bat.ftl" name="deploy-dev.bat.ftl" stamp="1312254803663" updateReferences="true"/>
-</session>

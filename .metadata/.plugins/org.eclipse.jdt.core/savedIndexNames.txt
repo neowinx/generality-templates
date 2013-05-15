@@ -1,1 +1,0 @@
-INDEX VERSION 1.126+C:\Users\David\Desktop\Generality\generality-1.0.1-Alpha-1590\workspace\.metadata\.plugins\org.eclipse.jdt.core
