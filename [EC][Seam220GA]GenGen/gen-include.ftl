@@ -1,14 +1,14 @@
 <#-- We recommend you do not touch this file unless you know what you are doing -->
-<#assign sqlIntegerTypes = [-6,5,4,6]>
-<#assign sqlLongTypes = [-5]>
-<#assign sqlFloatTypes = [7]>
-<#assign sqlNumberTypes = [-6,5,4,-5,6,7,8,3]>
-<#assign sqlStringTypes = [1,12,-1,-15,-9]>
-<#assign sqlDateTypes = [91]>
-<#assign sqlTimestampTypes = [92,93]>
-<#assign sqlBlobTypes = [2004,-4,-2,-3]>
-<#assign sqlBooleanTypes = [-7]>
-<#assign sqlBigDecimalTypes = [2]>
+<#assign sqlIntegerTypes = [-6,5,4,6] />
+<#assign sqlLongTypes = [-5] />
+<#assign sqlFloatTypes = [7] />
+<#assign sqlNumberTypes = [-6,5,4,-5,6,7,8,3] />
+<#assign sqlStringTypes = [1,12,-1,-15,-9] />
+<#assign sqlDateTypes = [91] />
+<#assign sqlTimestampTypes = [92,93] />
+<#assign sqlBlobTypes = [2004,-4,-2,-3] />
+<#assign sqlBooleanTypes = [-7,16] />
+<#assign sqlBigDecimalTypes = [2] />
 <#assign lastCol = columns?last>
 <#list columns as column><#if column.primaryKey><#assign keyColumn = column><#break /></#if></#list>
 <#function insertJavaType column>

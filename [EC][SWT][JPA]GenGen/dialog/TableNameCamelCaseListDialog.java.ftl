@@ -5,6 +5,7 @@
 <#assign entityName = opt.camelCaseStr(tableName) />
 package ${opt.dialogsPackage};
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 

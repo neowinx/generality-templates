@@ -2,13 +2,14 @@
 <#assign sqlIntegerTypes = [-6,5,4,6] />
 <#assign sqlLongTypes = [-5] />
 <#assign sqlFloatTypes = [7] />
-<#assign sqlNumberTypes = [-6,5,4,-5,6,7,8] />
+<#assign sqlNumberTypes = [-6,5,4,-5,6,7] />
 <#assign sqlStringTypes = [1,12,-1,-15,-9] />
 <#assign sqlDateTypes = [91] />
 <#assign sqlTimestampTypes = [92,93] />
 <#assign sqlBlobTypes = [2004,-4,-2] />
-<#assign sqlBooleanTypes = [-7] />
+<#assign sqlBooleanTypes = [-7,16] />
 <#assign sqlBigDecimalTypes = [2,3] />
+<#assign sqlDoubleTypes = [8] />
 <#assign lastCol = columns?last>
 <#list columns as column><#if column.primaryKey><#assign keyColumn = column><#break /></#if></#list>
 <#function insertJavaType column>
@@ -21,6 +22,7 @@
   <#elseif sqlTimestampTypes?seq_contains(column.dataType)><#return "Date" />
   <#elseif sqlBooleanTypes?seq_contains(column.dataType)><#return "Boolean" />
   <#elseif sqlBigDecimalTypes?seq_contains(column.dataType)><#return "BigDecimal" />
+  <#elseif sqlDoubleTypes?seq_contains(column.dataType)><#return "Double" />
   <#else><#return "" />
   </#if>
 </#function>

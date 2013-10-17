@@ -1,11 +1,11 @@
 <!-- [EC][SWT][JPA]GenGen -->
 <#include "gen-include.ftl" />
-<#assign projectName = "dncp-menu-admin-wb" />
-<#assign mainPackage = "py.gov.contrataciones.menu" />
+<#assign projectName = "c2ee" />
+<#assign mainPackage = "py.com.codelab.c2ee" />
 <#assign entityPackage = mainPackage + ".entity" />
 <#assign dialogsPackage = mainPackage + ".swt.dialog" />
-<#assign workspaceDir = "/home/pflores/PROJECTS/DNCP/ECLIPSE_HOME/WORKSPACES/indigo/dncp-trunk/" />
-<#assign applicationTitle = "MenuAdmin - Administrador de Menu de la DNCP" />
+<#assign workspaceDir = "H:\\PROJECTS\\CODELAB\\ECLIPSE_HOME\\indigo\\c2ee" />
+<#assign applicationTitle = "C2EE - Codelab 2 Enterprise Edition" />
 
 <#-- When editing, for string fields, blank values are persisted as null, otherwise blank values are treated as blank strings -->
 <#assign blankStringsAreNull = true />
@@ -18,7 +18,7 @@
 ] / -->
 
 <#-- About dialog text -->
-<#assign aboutDialogText = "Menu Admin para la AdministraciÃ³n del Menu de la DNCP\\r\\n\\r\\nCopyrights (c) 2012 - www.codelab.com.py" />
+<#assign aboutDialogText = "Codelab 2 Enterprise Edition - Aplicaciones EMpresariales para la Pequeña y Mediana Empresa\\r\\n\\r\\nCopyrights (c) 2013 - www.codelab.com.py" />
 
 <#-- Password fields. FORMAT: passwordfields = [ TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], ...] -->
 <#assign passwordFields = [ ] />

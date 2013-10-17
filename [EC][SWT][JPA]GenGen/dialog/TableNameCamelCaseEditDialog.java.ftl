@@ -206,7 +206,11 @@ public class ${entityName}EditDialog extends Dialog {
 	 */
 	private void createContents() {
 		shlNuevo${entityName} = new Shell(getParent(), SWT.SHELL_TRIM | SWT.BORDER | SWT.APPLICATION_MODAL);
+		<#if (columns?size <= 10)>
 		shlNuevo${entityName}.setSize(600, ${81 + columns?size * 28});
+		<#else>
+		shlNuevo${entityName}.setSize(600, 250);
+		</#if>
 		shlNuevo${entityName}.setText("Nuevo ${tableName?replace("_"," ")?capitalize}");
 		centerDialog();
 		shlNuevo${entityName}.setLayout(new BorderLayout(0, 0));
@@ -220,7 +224,11 @@ public class ${entityName}EditDialog extends Dialog {
 		cmpFields.setLayout(new GridLayout(2, false));
 		
 		scrolledComposite.setContent(cmpFields);
+		<#if (columns?size <= 10)>
 		scrolledComposite.setMinSize(new Point(300, ${6 + columns?size * 28}));
+		<#else>
+		scrolledComposite.setMinSize(new Point(300, 250));
+		</#if>
 		
 		Composite cmpButtons = new Composite(shlNuevo${entityName}, SWT.NONE);
 		cmpButtons.setLayoutData(BorderLayout.SOUTH);
