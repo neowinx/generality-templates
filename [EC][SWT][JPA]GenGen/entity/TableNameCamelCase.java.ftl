@@ -18,6 +18,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -76,7 +77,7 @@ public class ${entityName} implements java.io.Serializable {
   <#assign attrname = opt.mixedCase(column) />
   <#if opt.keyColumn == column>
 	@Id
-	@GeneratedValue(generator="${tableName?upper_case}_GENERATOR")
+	@GeneratedValue(generator="${tableName?upper_case}_GENERATOR", strategy=GenerationType.SEQUENCE)
 	@SequenceGenerator(name="${tableName?upper_case}_GENERATOR",sequenceName="<#if tableSchema??>${tableSchema!}.</#if>${tableName}_seq",allocationSize=1)
   </#if>
   <#if !column.primaryKey>
