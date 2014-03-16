@@ -64,6 +64,25 @@ public class ${entityName} implements java.io.Serializable {
 	private ${javatype} ${attrname};
 </#list>
 
+<#--Verificamos si la entidad posee detalles y realizarmos los imports necesarios-->
+<#if opt.masterDetail??>
+	<#assign index = 0/>
+	<#--entity es cada maestro-->
+	<#list opt.masterDetail as entity>
+		<#assign index = index + 1 />
+		<#if entity?is_string>
+			<#if entity == entityName>
+				<#assign idx = opt.masterDetail?seq_index_of(entity) + 1 />
+				<#list opt.masterDetail[idx] as detail>
+					<#if detail?is_string>
+	private List<${detail}> ${detail?uncap_first};
+					</#if>
+				</#list>		
+			</#if>
+		</#if>
+	</#list>
+</#if>		
+
 	public ${entityName}() {
 	}
 
@@ -84,6 +103,7 @@ public class ${entityName} implements java.io.Serializable {
 	<#assign fk = opt.getFk(column) />
 	<#if (fk?size > 0)>
 		<#list tables as t>
+		<#assign itemGenerated = false />
 			<#if t.tableName == fk.pktableName>
 				<#assign itemGenerated = true />
 				<#assign javatype = opt.camelCaseStr(fk.pktableName) />
@@ -114,8 +134,31 @@ public class ${entityName} implements java.io.Serializable {
 	public void set${attrname?cap_first}(${javatype} ${attrname}) {
 		this.${attrname} = ${attrname};
 	}
-	
 </#list>
+<#--Verificamos si la entidad posee detalles y realizamos las configuraciones necesarias-->
+<#if opt.masterDetail??>
+	<#assign index = 0/>
+	<#--entity es cada maestro-->
+	<#list opt.masterDetail as entity>
+		<#assign index = index + 1 />
+		<#if entity?is_string>
+			<#if entity == entityName>
+				<#assign idx = opt.masterDetail?seq_index_of(entity) + 1 />
+				<#list opt.masterDetail[idx] as detail>
+					<#if detail?is_string>
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="${entityName?uncap_first}",cascade=CascadeType.ALL)
+	public List<${detail}> get${detail?cap_first}() {
+		return this.${detail?uncap_first};
+	}
+	public void set${detail?cap_first}(List<${detail}> ${detail?uncap_first}) {
+		this.${detail?uncap_first} = ${detail?uncap_first};
+	}
+					</#if>
+				</#list>		
+			</#if>
+		</#if>
+	</#list>
+</#if>		
 	@Override
 	public int hashCode() {
 		final int prime = 31;

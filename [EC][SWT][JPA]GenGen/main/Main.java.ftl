@@ -99,6 +99,36 @@ public class Main {
 		
 			<#list tables as t>
 				<#assign entityName = opt.camelCaseStr(t.tableName) />
+				<#--Verificamos si la entidad posee detalles-->
+				<#if opt.masterDetail??>
+					<#assign index = 0/>
+					<#assign valid = true/>
+					<#list opt.masterDetail as entity>
+						<#assign index = index + 1 />
+						<#if entity?is_string>
+							<#assign idx = opt.masterDetail?seq_index_of(entity) + 1 />
+							<#list opt.masterDetail[idx] as detail>
+								<#if detail?is_string>
+									<#--entity es cada maestro-->
+									<#if detail == entityName>
+										<#assign valid = false/>
+									</#if>
+								</#if>
+							</#list>		
+						</#if>
+					</#list>
+					<#if valid>
+		MenuItem mntm${entityName} = new MenuItem(menu_1, SWT.NONE);
+		mntm${entityName}.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+		        ${entityName}ListDialog d = new ${entityName}ListDialog(shlMain);
+		        d.open();
+			}
+		});
+		mntm${entityName}.setText("&${t.tableName?replace("_"," ")?capitalize}");					
+					</#if>
+				<#else>
 		MenuItem mntm${entityName} = new MenuItem(menu_1, SWT.NONE);
 		mntm${entityName}.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -108,6 +138,7 @@ public class Main {
 			}
 		});
 		mntm${entityName}.setText("&${t.tableName?replace("_"," ")?capitalize}");
+				</#if>	
 			</#list>
 		</#if>
 		
@@ -122,3 +153,4 @@ public class Main {
 		mntmAbout.setText("Acerca de...");
 	}
 }
+

@@ -16,6 +16,7 @@ import javax.persistence.Query;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
@@ -106,18 +107,28 @@ public class ${entityName}ListDialog extends Dialog {
 		Composite filtersComposite = new Composite(shl${entityName}, SWT.NONE);
 		filtersComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		filtersComposite.setLayout(new GridLayout(2, false));
+		
+		Group groupFilter = new Group(filtersComposite, SWT.NONE);
+		GridData gd_form = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		gd_form.widthHint = 371;
+		groupFilter.setLayoutData(gd_form);
+		groupFilter.setSize(395, 197);
+		groupFilter.setText("Búsqueda");
+		groupFilter.setLayout(new GridLayout(2, false));
+		
 			<#list columns as column>
 				<#if opt.sqlStringTypes?seq_contains(column.dataType)>
 					<#assign camelCaseCol = opt.camelCase(column) />
 					<#assign labelCol = column.columnName?replace("_"," ")?capitalize />
-		Label lbl${camelCaseCol} = new Label(filtersComposite, SWT.NONE);
+					
+		Label lbl${camelCaseCol} = new Label(groupFilter, SWT.NONE);
 		lbl${camelCaseCol}.setText("${labelCol}");
 		
-		txt${camelCaseCol}Filter = new Text(filtersComposite, SWT.BORDER);
+		txt${camelCaseCol}Filter = new Text(groupFilter, SWT.BORDER);
 		txt${camelCaseCol}Filter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 				</#if>
 			</#list>
-		Button btnBuscar = new Button(filtersComposite, SWT.NONE);
+		Button btnBuscar = new Button(groupFilter, SWT.NONE);
 		btnBuscar.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -125,6 +136,24 @@ public class ${entityName}ListDialog extends Dialog {
 			}
 		});
 		btnBuscar.setText("&Buscar");
+		
+		Button btnLimpiar = new Button(groupFilter, SWT.NONE);
+		btnLimpiar.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			<#if (opt.filterColumns?? && opt.filterColumns?size == 0) >
+				<#list columns as column>
+					<#if opt.sqlStringTypes?seq_contains(column.dataType)>
+				txt${opt.camelCase(column)}Filter.setText("");
+					</#if>
+				</#list>
+			<#elseif (opt.filterColumns?? && opt.filterColumns?size > 0) >
+			//Custom filters not implemented yet.. sorry :)
+			</#if>
+				refreshGrid();
+			}
+		});
+		btnLimpiar.setText("&Limpiar Criterios");
 		
 		shl${entityName}.setDefaultButton(btnBuscar);
 		new Label(filtersComposite, SWT.NONE);
@@ -149,11 +178,17 @@ public class ${entityName}ListDialog extends Dialog {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		<#--Agregamos la columna Id en primer lugar-->
+		<#assign label = opt.keyColumn.columnName?replace("_"," ")?capitalize />
+		TableColumn tblclmn${opt.camelCase(opt.keyColumn)} = new TableColumn(table, SWT.NONE);
+			tblclmn${opt.camelCase(opt.keyColumn)}.setWidth(100);
+		tblclmn${opt.camelCase(opt.keyColumn)}.setText("${label}");
+		<#--Luego agreamos las demas columnas-->
 		<#list columns as column>
-		TableColumn tblclmn${opt.camelCase(column)} = new TableColumn(table, SWT.NONE);
-		tblclmn${opt.camelCase(column)}.setWidth(100);
-			<#assign label = column.columnName?replace("_"," ")?capitalize />
 			<#if !column.primaryKey>
+			TableColumn tblclmn${opt.camelCase(column)} = new TableColumn(table, SWT.NONE);
+			tblclmn${opt.camelCase(column)}.setWidth(100);
+				<#assign label = column.columnName?replace("_"," ")?capitalize />
 				<#assign fk = opt.getFk(column) />
 				<#if (fk?size > 0)>
 					<#list tables as t>
@@ -163,8 +198,8 @@ public class ${entityName}ListDialog extends Dialog {
 						</#if>
 					</#list>
 				</#if>
-			</#if>
-		tblclmn${opt.camelCase(column)}.setText("${label}");		
+			tblclmn${opt.camelCase(column)}.setText("${label}");
+			</#if>		
 		</#list>
 		
 		buttonsComposite = new Composite(shl${entityName}, SWT.NONE);
@@ -177,7 +212,7 @@ public class ${entityName}ListDialog extends Dialog {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName});
-				${entityName} o = ed.open();
+				${entityName} o = ed.open("Creando ${entityName}");
 				if(o != null)
 					refreshGrid();
 			}
@@ -198,20 +233,7 @@ public class ${entityName}ListDialog extends Dialog {
 		btnBorrar.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(table.getSelection().length > 0){
-					try{
-						EntityManager em = PersistenceHelper.getEmf().createEntityManager();
-						em.getTransaction().begin();
-						em.remove(em.find(${entityName}.class, new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0))));
-						em.getTransaction().commit();
-						em.close();
-						refreshGrid();
-					}catch(Exception ex){
-						MessageBox ms = new MessageBox(shl${entityName});
-						ms.setMessage(ex.getMessage());
-						ms.open();
-					}
-				}
+				delete();
 			}
 		});
 		btnBorrar.setText("&Borrar");
@@ -272,15 +294,37 @@ public class ${entityName}ListDialog extends Dialog {
 		if(table.getSelection().length > 0){
 			try{
 				EntityManager em = PersistenceHelper.getEmf().createEntityManager();
-				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName}, em.find(${entityName}.class, new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0))));
-				${entityName} o = ed.open();
+				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName}, em.find(
+						${entityName}.class, 
+						new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0))));
+				${entityName} o = ed.open("Editando ${entityName}");
 				if(o != null)
 					refreshGrid();
 			}catch(Exception ex){
-				MessageBox ms = new MessageBox(shl${entityName});
-				ms.setMessage(ex.getMessage());
-				ms.open();
+				createMessageBox(ex.getMessage());
 			}
+		}else {
+			createMessageBox("Seleccione el registro que desea editar");
+		}
+	}
+	private void delete() {
+		if (table.getSelection().length > 0) {
+			try {
+
+				EntityManager em = PersistenceHelper.getEmf()
+						.createEntityManager();
+				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName}, em.find(
+						${entityName}.class,
+						new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0))));
+				ed.setDelete(true);
+				ed.open("Eliminando ${entityName}");
+				refreshGrid();
+
+			} catch (Exception ex) {
+				createMessageBox(ex.getMessage());
+			}
+		} else {
+			createMessageBox("Seleccione el registro que desea eliminar");
 		}
 	}
 	
@@ -341,13 +385,15 @@ public class ${entityName}ListDialog extends Dialog {
 				.getResultList()){
 				tableItem = new TableItem(table, SWT.NONE);
 				tableItem.setText(new String[] {
+				<#assign attrname = opt.mixedCaseStr(opt.keyColumn.columnName) />
+						p.get${attrname?cap_first}() == null ? null : "" + p.get${attrname?cap_first}(),
 			<#assign attrNames = "" />
 			<#list columns as column>
-				<#assign itemGenerated = false />
-				<#assign javatype = opt.insertJavaType(column) />
-				<#assign attrname = opt.mixedCase(column) />
-				<#assign attrOfattr = "">
 				<#if !column.primaryKey>
+					<#assign itemGenerated = false />
+					<#assign javatype = opt.insertJavaType(column) />
+					<#assign attrname = opt.mixedCase(column) />
+					<#assign attrOfattr = "">
 					<#assign fk = opt.getFk(column) />
 					<#if (fk?size > 0)>
 						<#list tables as t>
@@ -366,21 +412,21 @@ public class ${entityName}ListDialog extends Dialog {
 							</#if>
 						</#list>
 					</#if>
-				</#if>
-				<#assign res = attrNames?matches(attrname)?size />
-				<#assign attrNames = attrNames + " " + attrname />
-				<#if res &gt; 0>
-				  <#assign attrname = attrname + res />
-				</#if>
-				<#if itemGenerated>
-						"" + (p.get${attrname?cap_first}() != null ? p.get${attrname?cap_first}().get${attrOfattr}() : "")<#if opt.lastCol != column>,</#if>
-				<#else>
-					<#if opt.sqlDateTypes?seq_contains(column.dataType)>
-							p.get${attrname?cap_first}() != null ? sdf.format(p.get${attrname?cap_first}()) : ""<#if opt.lastCol != column>,</#if>
-					<#elseif opt.sqlTimestampTypes?seq_contains(column.dataType)>
-							p.get${attrname?cap_first}() != null ? sdf.format(p.get${attrname?cap_first}()) : ""<#if opt.lastCol != column>,</#if>
+					<#assign res = attrNames?matches(attrname)?size />
+					<#assign attrNames = attrNames + " " + attrname />
+					<#if res &gt; 0>
+					  <#assign attrname = attrname + res />
+					</#if>
+					<#if itemGenerated>
+							"" + (p.get${attrname?cap_first}() != null ? p.get${attrname?cap_first}().get${attrOfattr}() : "")<#if opt.lastCol != column>,</#if>
 					<#else>
-							p.get${attrname?cap_first}() == null ? null : "" + p.get${attrname?cap_first}()<#if opt.lastCol != column>,</#if>
+						<#if opt.sqlDateTypes?seq_contains(column.dataType)>
+								p.get${attrname?cap_first}() != null ? sdf.format(p.get${attrname?cap_first}()) : ""<#if opt.lastCol != column>,</#if>
+						<#elseif opt.sqlTimestampTypes?seq_contains(column.dataType)>
+								p.get${attrname?cap_first}() != null ? sdf.format(p.get${attrname?cap_first}()) : ""<#if opt.lastCol != column>,</#if>
+						<#else>
+								p.get${attrname?cap_first}() == null ? null : "" + p.get${attrname?cap_first}()<#if opt.lastCol != column>,</#if>
+						</#if>
 					</#if>
 				</#if>
 			</#list>
@@ -388,9 +434,7 @@ public class ${entityName}ListDialog extends Dialog {
 			}
 		}catch(Exception ex){
 			if(ex.getMessage() != null){
-				MessageBox ms = new MessageBox(shl${entityName});
-				ms.setMessage(ex.getMessage());
-				ms.open();
+				createMessageBox(ex.getMessage());
 			}else {
 				ex.printStackTrace();
 			}
@@ -399,6 +443,11 @@ public class ${entityName}ListDialog extends Dialog {
 	
 	private Long countQuery(EntityManager em){
 		return (Long)em.createQuery(" select count(o) from ${entityName} o ").getSingleResult();
+	}
+	private void createMessageBox(String message) {
+		MessageBox ms = new MessageBox(shl${entityName});
+		ms.setMessage(message);
+		ms.open();
 	}
 }
 </#if>
