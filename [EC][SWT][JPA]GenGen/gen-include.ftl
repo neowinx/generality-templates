@@ -12,6 +12,7 @@
 <#assign sqlDoubleTypes = [8] />
 <#assign lastCol = columns?last>
 <#list columns as column><#if column.primaryKey><#assign keyColumn = column><#break /></#if></#list>
+
 <#function insertJavaType column>
   <#if sqlIntegerTypes?seq_contains(column.dataType)><#return "Integer" />
   <#elseif sqlStringTypes?seq_contains(column.dataType)><#return "String" />
@@ -26,6 +27,7 @@
   <#else><#return "" />
   </#if>
 </#function>
+
 <#function getFk columna>
 	<#list foreignKeys as fk>
 		<#if fk.fkcolumnName == columna.columnName>
@@ -34,6 +36,7 @@
 	</#list>
 	<#return {} />
 </#function>
+
 <#function getFkFromTable table columna>
 	<#list table.foreignKeys as fk>
 		<#if fk.fkcolumnName == columna.columnName>
@@ -42,21 +45,27 @@
 	</#list>
 	<#return {} />
 </#function>
+
 <#function mixedCase column>
 	<#return column.columnName?replace("_", " ")?capitalize?replace(" ", "")?uncap_first />
 </#function>
+
 <#function camelCase column>
 	<#return column.columnName?replace("_", " ")?capitalize?replace(" ", "") />
 </#function>
+
 <#function mixedCaseStr str>
 	<#return str?replace("_", " ")?capitalize?replace(" ", "")?uncap_first />
 </#function>
+
 <#function camelCaseStr str>
 	<#return str?replace("_", " ")?capitalize?replace(" ", "") />
 </#function>
+
 <#function packageToPath pkg>
 	<#return pkg?replace(".", "\\") />
 </#function>
+
 <#macro insertColumnAnnotation column>
 <#if sqlTimestampTypes?seq_contains(column.dataType)>	@Temporal(TemporalType.TIMESTAMP)<#t /><#elseif sqlDateTypes?seq_contains(column.dataType)>	@Temporal(TemporalType.DATE)<#t /></#if>
 	@Column(name = "${column.columnName}")

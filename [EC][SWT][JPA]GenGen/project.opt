@@ -17,10 +17,14 @@
 	"Operaciones", ["FERIAS", "GUIAS", "LOTES", "PAGOS"]
 ] / -->
 
+<#assign masterDetail = ["Persona",["Direccion",["Id","Calle","Numero"]]] />
+<#--<#assign masterDetail = ["Auto",["Caracteristicas",["Id","Valor"],"Propietario",["Id","Nombre","Apellido"]]] />-->
+
 <#--<#assign masterDetail = ["Persona",["Direccion",["Id","Calle","Numero"]]] />-->
-<#assign masterDetail = ["Auto",["Caracteristicas",["Id","Valor"],"Propietario",["Id","Nombre","Apellido"]]] />
+<#assign listValue = ["Pais"] />
+
 <#-- About dialog text -->
-<#assign aboutDialogText = "Codelab 2 Enterprise Edition - Aplicaciones EMpresariales para la Pequenha y Mediana Empresa\\r\\n\\r\\nCopyrights (c) 2013 - www.codelab.com.py" />
+<#assign aboutDialogText = "Codelab 2 Enterprise Edition - Aplicaciones EMpresariales para la Peque�a y Mediana Empresa\\r\\n\\r\\nCopyrights (c) 2013 - www.codelab.com.py" />
 
 <#-- Password fields. FORMAT: passwordfields = [ TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], TABLE1, [PASSWORD_COLUMN1, PASSWORD_COLUMN2, ...], ...] -->
 <#assign passwordFields = [ ] />

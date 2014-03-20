@@ -1,8 +1,11 @@
 <#import "*/gen-options.ftl" as opt />
-<#if (!opt.keyColumn??)>
+<#if opt.listValue??>
+	<#if (!opt.keyColumn??)>
 //ESTE TEMPLATE SOLO MANEJA TABLAS CON PRIMARY KEYS DEFINIDOS
-<#else>
-<#assign entityName = opt.camelCaseStr(tableName) />
+	<#else>
+		<#assign entityName = tableName?replace("_", " ")?capitalize?replace(" ", "") />
+		<#list opt.listValue as picker>
+			<#if picker== entityName>
 package ${opt.dialogsPackage};
 
 import java.math.BigDecimal;
@@ -42,19 +45,17 @@ import ${opt.mainPackage}.Main;
 import ${opt.entityPackage}.${entityName};
 import ${opt.mainPackage}.PersistenceHelper;
 
-public class ${entityName}ListDialog extends Dialog {
+public class ${entityName}ListValueDialog extends Dialog {
 
-	protected Object result;
-	protected Shell shl${entityName};
+	protected ${entityName} value;
+	protected Shell shlPickerFieldPopup;
 	private Table table;
 	private TableItem tableItem;
-	private Button btnNuevo;
-	private Composite buttonsComposite;
-	
+
 	private int firstResult;
 	private Long countResult;
 	Label lblPage;
-	
+
 	<#if (opt.filterColumns?? && opt.filterColumns?size == 0) >
 		<#list columns as column>
 			<#if opt.sqlStringTypes?seq_contains(column.dataType)>
@@ -65,58 +66,54 @@ public class ${entityName}ListDialog extends Dialog {
 	//Custom filters not implemented yet.. sorry :)
 	</#if>
 
-	/**
-	 * Create the dialog.
-	 * @param parent
-	 * @param style
-	 */
-	public ${entityName}ListDialog(Shell parent) {
+	public ${entityName}ListValueDialog(Shell parent) {
 		super(parent);
-		setText("${entityName}ListDialog");
+		setText("${entityName}ListValueDialog");
 	}
 
 	/**
 	 * Open the dialog.
+	 * 
 	 * @return the result
 	 */
-	public Object open() {
+	public ${entityName} open() {
 		createContents();
-		shl${entityName}.open();
-		shl${entityName}.layout();
+		shlPickerFieldPopup.open();
+		shlPickerFieldPopup.layout();
 		Display display = getParent().getDisplay();
-		while (!shl${entityName}.isDisposed()) {
+		while (!shlPickerFieldPopup.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
-		return result;
+		return value;
 	}
 
 	/**
 	 * Create contents of the dialog.
 	 */
 	private void createContents() {
-		shl${entityName} = new Shell(getParent(), SWT.SHELL_TRIM | SWT.BORDER);
-		shl${entityName}.setSize(450, 300);
-		shl${entityName}.setText("${tableName?replace("_"," ")?capitalize}");
-		shl${entityName}.setLayout(new GridLayout(1, false));
+
+		shlPickerFieldPopup = new Shell(getParent(), SWT.SHELL_TRIM
+				| SWT.BORDER | SWT.APPLICATION_MODAL);
+		shlPickerFieldPopup.setSize(600, 403);
+		shlPickerFieldPopup.setText("Seleccionar ${tableName?replace("_"," ")?capitalize}");
 		centerDialog();
-		shl${entityName}.setMaximized(true);
-		
-		<#if (opt.filterColumns?? && opt.filterColumns?size == 0) >
-		Composite filtersComposite = new Composite(shl${entityName}, SWT.NONE);
-		filtersComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		shlPickerFieldPopup.setLayout(new GridLayout(1, false));
+
+		Composite filtersComposite = new Composite(shlPickerFieldPopup,
+				SWT.NONE);
+		filtersComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
+				false, false, 1, 1));
 		filtersComposite.setLayout(new GridLayout(2, false));
-		
+
 		Group groupFilter = new Group(filtersComposite, SWT.NONE);
-		GridData gd_form = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_form.widthHint = 371;
-		groupFilter.setLayoutData(gd_form);
+		groupFilter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
+				1, 1));
 		groupFilter.setSize(395, 197);
 		groupFilter.setText("Búsqueda");
 		groupFilter.setLayout(new GridLayout(2, false));
-		
-			<#list columns as column>
+		<#list columns as column>
 				<#if opt.sqlStringTypes?seq_contains(column.dataType)>
 					<#assign camelCaseCol = opt.camelCase(column) />
 					<#assign labelCol = column.columnName?replace("_"," ")?capitalize />
@@ -128,6 +125,7 @@ public class ${entityName}ListDialog extends Dialog {
 		txt${camelCaseCol}Filter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 				</#if>
 			</#list>
+
 		Button btnBuscar = new Button(groupFilter, SWT.NONE);
 		btnBuscar.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -136,7 +134,7 @@ public class ${entityName}ListDialog extends Dialog {
 			}
 		});
 		btnBuscar.setText("&Buscar");
-		
+
 		Button btnLimpiar = new Button(groupFilter, SWT.NONE);
 		btnLimpiar.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -148,33 +146,17 @@ public class ${entityName}ListDialog extends Dialog {
 					</#if>
 				</#list>
 			<#elseif (opt.filterColumns?? && opt.filterColumns?size > 0) >
-			//Custom filters not implemented yet.. sorry :)
+				//Custom filters not implemented yet.. sorry :)
 			</#if>
 				refreshGrid();
 			}
 		});
 		btnLimpiar.setText("&Limpiar Criterios");
-		
-		shl${entityName}.setDefaultButton(btnBuscar);
+
+		shlPickerFieldPopup.setDefaultButton(btnBuscar);
 		new Label(filtersComposite, SWT.NONE);
-		<#elseif (opt.filterColumns?? && opt.filterColumns?size > 0) >
-		//Custom filters not implemented yet.. sorry :)
-		</#if>
-		
-		table = new Table(shl${entityName}, SWT.BORDER | SWT.FULL_SELECTION);
-		table.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.character == SWT.CR)
-					edit();
-			}
-		});
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-				edit();
-			}
-		});
+
+		table = new Table(shlPickerFieldPopup, SWT.BORDER | SWT.FULL_SELECTION);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -203,46 +185,40 @@ public class ${entityName}ListDialog extends Dialog {
 		tblclmn${opt.camelCase(column)}.setText("${label}");
 			</#if>		
 		</#list>
-		
-		buttonsComposite = new Composite(shl${entityName}, SWT.NONE);
-		buttonsComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+
+		Composite buttonsComposite = new Composite(shlPickerFieldPopup,
+				SWT.NONE);
+		buttonsComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER,
+				false, false, 1, 1));
 		buttonsComposite.setLayout(new GridLayout(4, false));
-		
-		btnNuevo = new Button(buttonsComposite, SWT.NONE);
-		btnNuevo.setSize(43, 23);
-		btnNuevo.addSelectionListener(new SelectionAdapter() {
+
+		Button btnAccept = new Button(buttonsComposite, SWT.NONE);
+		btnAccept.setSize(43, 23);
+		btnAccept.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName});
-				${entityName} o = ed.open("Creando ${entityName}");
-				if(o != null)
-					refreshGrid();
+				if (table.getSelection().length > 0) {
+					try {
+						EntityManager em = PersistenceHelper.getEmf()
+								.createEntityManager();
+
+						value = em.find(${entityName}.class,
+								new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0)));
+						shlPickerFieldPopup.close();
+					} catch (Exception ex) {
+						createMessageBox(ex.getMessage());
+					}
+				} else {
+					createMessageBox("Seleccione el ${tableName?replace("_"," ")?capitalize} que desea");
+				}
 			}
 		});
-		btnNuevo.setText("&Nuevo");
-		
-		Button btnEditar = new Button(buttonsComposite, SWT.NONE);
-		btnEditar.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				edit();
-			}
-		});
-		btnEditar.setBounds(0, 0, 68, 23);
-		btnEditar.setText("&Editar");
-		
-		Button btnBorrar = new Button(buttonsComposite, SWT.NONE);
-		btnBorrar.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				delete();
-			}
-		});
-		btnBorrar.setText("&Borrar");
-		
-		Composite paginationComposite = new Composite(buttonsComposite, SWT.NONE);
+		btnAccept.setText("&Aceptar");
+
+		Composite paginationComposite = new Composite(buttonsComposite,
+				SWT.NONE);
 		paginationComposite.setLayout(new GridLayout(5, false));
-		
+
 		Button btnFirstPage = new Button(paginationComposite, SWT.NONE);
 		btnFirstPage.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -252,17 +228,18 @@ public class ${entityName}ListDialog extends Dialog {
 			}
 		});
 		btnFirstPage.setText("<<");
-		
+
 		Button btnPrevPage = new Button(paginationComposite, SWT.NONE);
 		btnPrevPage.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				firstResult = firstResult - Main.MAX_PAGE_RESUTLS < 0 ? 0 : firstResult - Main.MAX_PAGE_RESUTLS;
+				firstResult = firstResult - Main.MAX_PAGE_RESUTLS < 0 ? 0
+						: firstResult - Main.MAX_PAGE_RESUTLS;
 				refreshGrid();
 			}
 		});
 		btnPrevPage.setText("<");
-		
+
 		Button btnNextPage = new Button(paginationComposite, SWT.NONE);
 		btnNextPage.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -272,89 +249,58 @@ public class ${entityName}ListDialog extends Dialog {
 			}
 		});
 		btnNextPage.setText(">");
-		
+
 		Button btnLastPage = new Button(paginationComposite, SWT.NONE);
 		btnLastPage.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				firstResult = countResult.intValue() - Main.MAX_PAGE_RESUTLS < 0 ? 0 : countResult.intValue() - Main.MAX_PAGE_RESUTLS;
+				firstResult = countResult.intValue() - Main.MAX_PAGE_RESUTLS < 0 ? 0
+						: countResult.intValue() - Main.MAX_PAGE_RESUTLS;
 				refreshGrid();
 			}
 		});
 		btnLastPage.setText(">>");
-		
+
 		lblPage = new Label(paginationComposite, SWT.NONE);
-		GridData gd_lblPage = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		GridData gd_lblPage = new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1);
 		gd_lblPage.widthHint = 250;
 		lblPage.setLayoutData(gd_lblPage);
 		lblPage.setText("1 al 1 de 1");
-		
+
 		refreshGrid();
 	}
-	
-	private void edit() {
-		if(table.getSelection().length > 0){
-			try{
-				EntityManager em = PersistenceHelper.getEmf().createEntityManager();
-				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName}, em.find(
-						${entityName}.class, 
-						new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0))));
-				${entityName} o = ed.open("Editando ${entityName}");
-				if(o != null)
-					refreshGrid();
-			}catch(Exception ex){
-				createMessageBox(ex.getMessage());
-			}
-		}else {
-			createMessageBox("Seleccione el registro que desea editar");
-		}
-	}
-	private void delete() {
-		if (table.getSelection().length > 0) {
-			try {
 
-				EntityManager em = PersistenceHelper.getEmf()
-						.createEntityManager();
-				${entityName}EditDialog ed = new ${entityName}EditDialog(shl${entityName}, em.find(
-						${entityName}.class,
-						new ${opt.insertJavaType(opt.keyColumn)}(table.getSelection()[0].getText(0))));
-				ed.setDelete(true);
-				ed.open("Eliminando ${entityName}");
-				refreshGrid();
-
-			} catch (Exception ex) {
-				createMessageBox(ex.getMessage());
-			}
-		} else {
-			createMessageBox("Seleccione el registro que desea eliminar");
-		}
-	}
-	
 	private void centerDialog() {
-		Monitor primary = shl${entityName}.getDisplay().getPrimaryMonitor();
-		Rectangle bounds = primary.getBounds ();
-		Rectangle rect = shl${entityName}.getBounds ();
+		Monitor primary = shlPickerFieldPopup.getDisplay().getPrimaryMonitor();
+		Rectangle bounds = primary.getBounds();
+		Rectangle rect = shlPickerFieldPopup.getBounds();
 		int x = bounds.x + (bounds.width - rect.width) / 2;
 		int y = bounds.y + (bounds.height - rect.height) / 2;
-		shl${entityName}.setLocation (x, y);
+		shlPickerFieldPopup.setLocation(x, y);
+	}
+
+	private Long countQuery(EntityManager em) {
+		return (Long) em.createQuery(" select count(o) from Pais o ")
+				.getSingleResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	private void refreshGrid() {
-		try{
+		try {
 			EntityManager em = PersistenceHelper.getEmf().createEntityManager();
-			SimpleDateFormat sdf = (SimpleDateFormat)SimpleDateFormat.getInstance();
-			sdf.applyPattern("dd/MM/yyyy");
-			for(TableItem ti : table.getItems())
+			for (TableItem ti : table.getItems())
 				ti.dispose();
-				
+
 			countResult = countQuery(em);
-			
-			lblPage.setText((firstResult+1) + " al " + (firstResult + Main.MAX_PAGE_RESUTLS) + " de " + countResult);
-			
+
+			lblPage.setText((firstResult + 1) + " al "
+					+ (firstResult + Main.MAX_PAGE_RESUTLS) + " de "
+					+ countResult);
+
 			String queryStr = " select o from ${entityName} o ";
 			String andWord = "where";
-			
+
 			<#if (opt.filterColumns?? && opt.filterColumns?size == 0) >
 				<#list columns as column>
 					<#if opt.sqlStringTypes?seq_contains(column.dataType)>
@@ -367,9 +313,9 @@ public class ${entityName}ListDialog extends Dialog {
 			<#elseif (opt.filterColumns?? && opt.filterColumns?size > 0) >
 				//Custom filters not implemented yet.. sorry :)
 			</#if>
-			
+
 			Query q = em.createQuery(queryStr);
-			
+
 			<#if (opt.filterColumns?? && opt.filterColumns?size == 0) >
 				<#list columns as column>
 					<#if opt.sqlStringTypes?seq_contains(column.dataType)>
@@ -434,22 +380,24 @@ public class ${entityName}ListDialog extends Dialog {
 			</#list>
 					});
 			}
-		}catch(Exception ex){
-			if(ex.getMessage() != null){
+		} catch (Exception ex) {
+			if (ex.getMessage() != null) {
 				createMessageBox(ex.getMessage());
-			}else {
+			} else {
 				ex.printStackTrace();
 			}
 		}
 	}
-	
-	private Long countQuery(EntityManager em){
-		return (Long)em.createQuery(" select count(o) from ${entityName} o ").getSingleResult();
-	}
+
 	private void createMessageBox(String message) {
-		MessageBox ms = new MessageBox(shl${entityName});
+		MessageBox ms = new MessageBox(shlPickerFieldPopup);
 		ms.setMessage(message);
 		ms.open();
 	}
+
+	
 }
+			</#if>
+		</#list>
+	</#if>
 </#if>

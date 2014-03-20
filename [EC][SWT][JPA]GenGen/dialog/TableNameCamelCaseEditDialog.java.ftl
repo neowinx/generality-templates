@@ -127,9 +127,23 @@ public class ${entityName}EditDialog extends Dialog {
 							</#if>
 						</#list>
 					</#if>
-					<#if valid>
+					<#if valid >
+						<#assign isListValue =false/>
+						<#if opt.listValue??>
+							<#list opt.listValue as picker>
+								<#if picker==ccc>
+									<#assign isListValue =true/>
+									<#break />
+								</#if>
+							</#list>
+						</#if>
+						<#if !isListValue>
 	private Combo cmb${ccc};
 	private List<${javatype}> cmb${ccc}Values = new Vector<${javatype}>();
+						<#else>
+	private Text txt${ccc};
+	private ${ccc} value${ccc};
+						</#if>
 					</#if>
 					<#break />
 				</#if>
@@ -293,7 +307,22 @@ public class ${entityName}EditDialog extends Dialog {
 							</#list>
 						</#if>
 						<#if valid>
+							<#assign isListValue =false/>
+							<#if opt.listValue??>
+								<#list opt.listValue as picker>
+									<#if picker==ccc>
+										<#assign isListValue =true/>
+										<#break />
+									</#if>
+								</#list>
+							</#if>
+							<#if !isListValue>
 				cmb${ccc}.select(cmb${ccc}Values.indexOf(entityHolder.get${attrname?cap_first}()));
+							<#else>
+				value${ccc} = entityHolder.get${ccc}();
+				txt${ccc}.setText(value${ccc}.getDescripcion());
+							</#if>
+				
 						</#if>
 					<#else>
 						<#if opt.staticValuesFields??>
@@ -407,7 +436,7 @@ public class ${entityName}EditDialog extends Dialog {
 		groupForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,
 				1, 1));
 		groupForm.setText("Datos generales");
-		groupForm.setLayout(new GridLayout(2, false));
+		groupForm.setLayout(new GridLayout(3, false));
 		
 		<#list columns as column>
 			<#-- Si no es la clave primaria generamos el label o etiqueta del field -->
@@ -448,12 +477,41 @@ public class ${entityName}EditDialog extends Dialog {
 		lbl${ccc}.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lbl${ccc}.setText("${fk.pktableName?replace("_", " ")?capitalize}");
 		
-		<#-- Si es un fk, se define un combo-->
+		<#-- Si es un fk, se define un combo o un picker-->
+								<#assign isListValue =false/>
+								<#if opt.listValue??>
+									<#list opt.listValue as picker>
+										<#if picker==ccc>
+											<#assign isListValue =true/>
+											<#break />
+										</#if>
+									</#list>
+								</#if>
+								<#if !isListValue>
 		cmb${ccc} = new Combo(groupForm, SWT.READ_ONLY);
 		cmb${ccc}.setEnabled(getEnableField());
 		cmb${ccc}.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-							</#if>
+		new Label(groupForm, SWT.NONE);
+								<#else>
+		txt${ccc} = new Text(groupForm, SWT.READ_ONLY | SWT.BORDER);
+		txt${ccc}.setEnabled(getEnableField());
+		txt${ccc}.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
+		Button btnPicker = new Button(groupForm, SWT.NONE);
+		btnPicker.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				${ccc}ListValueDialog sd = new ${ccc}ListValueDialog(shlNuevo${entityName});
+				value${ccc} = sd.open();
+				if (value${ccc} != null) {
+					txt${ccc}.setText(value${ccc}.getDescripcion());
+				}
+			}
+		});
+		btnPicker.setText("&Elegir");
+		btnPicker.setEnabled(getEnableField());
+								</#if>
+							</#if>
 							<#break />
 						</#if>
 					</#list>
@@ -477,6 +535,7 @@ public class ${entityName}EditDialog extends Dialog {
 		cmb${ccc} = new Combo(groupForm, SWT.NONE);
 		cmb${ccc}.setEnabled(getEnableField());
 		cmb${ccc}.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		new Label(groupForm, SWT.NONE);
 
 									<#break />
 								</#if>
@@ -495,6 +554,7 @@ public class ${entityName}EditDialog extends Dialog {
 		<#--Puede ser una fecha-->
 		dt${ccc} = new DateTime(groupForm, SWT.BORDER | SWT.DROP_DOWN);
 		dt${ccc}.setEnabled(getEnableField());
+		new Label(groupForm, SWT.NONE);
 					<#else>
 						<#assign indexof = opt.passwordFields?seq_index_of(tableName) />
 						<#assign pass = "" />
@@ -507,6 +567,7 @@ public class ${entityName}EditDialog extends Dialog {
 		txt${ccc} = new Text(groupForm, SWT.BORDER${pass});
 		txt${ccc}.setEnabled(getEnableField());
 		txt${ccc}.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		new Label(groupForm, SWT.NONE);
 		
 					</#if>
 				</#if>
@@ -555,14 +616,23 @@ public class ${entityName}EditDialog extends Dialog {
 								</#list>
 							</#if>
 							<#if valid>
+								<#assign isListValue =false/>
+								<#if opt.listValue??>
+									<#list opt.listValue as picker>
+										<#if picker==ccc>
+											<#assign isListValue =true/>
+											<#break />
+										</#if>
+									</#list>
+								</#if>
+								<#if !isListValue>
 			<#--Hacemos la consulta y cargamos el combo-->
 			for(${javatype} o : (List<${javatype}>)em.createQuery(" select o from ${javatype} o ").getResultList()){
 				cmb${ccc}.add("" + o.get${descCol}());
 				cmb${ccc}Values.add(o);
 			}
+								</#if>
 							</#if>
-			
-			
 							<#break />
 						</#if>
 					</#list>
@@ -878,8 +948,21 @@ public class ${entityName}EditDialog extends Dialog {
 											</#list>
 										</#if>
 										<#if valid>
+											<#assign isListValue =false/>
+											<#if opt.listValue??>
+												<#list opt.listValue as picker>
+													<#if picker==ccc>
+														<#assign isListValue =true/>
+														<#break />
+													</#if>
+												</#list>
+											</#if>
+											<#if !isListValue>
 							<#--Seteamos el valor seleccionado del combo en la entidad-->
 							o.set${attrname?cap_first}(cmb${ccc}Values.get(cmb${ccc}.getSelectionIndex()));
+											<#else>
+							o.set${attrname?cap_first}(value${ccc});
+											</#if>
 										</#if>
 									<#else>
 										<#if opt.staticValuesFields??>
@@ -1126,12 +1209,29 @@ public class ${entityName}EditDialog extends Dialog {
 						</#list>
 					</#if>
 					<#if valid>
-		<#--Hacemos que el combo sea obligatorio-->
+		<#--Hacemos que el combo o picker sea obligatorio-->
+						<#assign isListValue =false/>
+						<#if opt.listValue??>
+							<#list opt.listValue as picker>
+								<#if picker==ccc>
+									<#assign isListValue =true/>
+									<#break />
+								</#if>
+							</#list>
+						</#if>
+						<#if !isListValue>
 		if(cmb${ccc}.getSelectionIndex() == -1){
 			createMessageBox("'${title}' debe tener valor.");
 			cmb${ccc}.setFocus();
 			return false;
 		}
+						<#else>
+		if (value${ccc} == null) {
+			createMessageBox("'${title}' debe tener valor.");
+			txt${ccc}.setFocus();
+			return false;
+		}
+						</#if>
 					</#if>
 		
 				<#else>
