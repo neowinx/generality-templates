@@ -497,8 +497,8 @@ public class ${entityName}EditDialog extends Dialog {
 		txt${ccc}.setEnabled(getEnableField());
 		txt${ccc}.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Button btnPicker = new Button(groupForm, SWT.NONE);
-		btnPicker.addSelectionListener(new SelectionAdapter() {
+		Button btnPicker${ccc} = new Button(groupForm, SWT.NONE);
+		btnPicker${ccc}.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				${ccc}ListValueDialog sd = new ${ccc}ListValueDialog(shlNuevo${entityName});
@@ -508,8 +508,8 @@ public class ${entityName}EditDialog extends Dialog {
 				}
 			}
 		});
-		btnPicker.setText("&Elegir");
-		btnPicker.setEnabled(getEnableField());
+		btnPicker${ccc}.setText("&Elegir");
+		btnPicker${ccc}.setEnabled(getEnableField());
 								</#if>
 							</#if>
 							<#break />
@@ -679,8 +679,20 @@ public class ${entityName}EditDialog extends Dialog {
 				<#if t.tableName == fk.pktableName>
 					<#assign itemGenerated = true />
 					<#assign javatype = opt.camelCaseStr(fk.pktableName) />
-		<#--Si es un combo-->
-		cmb${ccc}.setFocus();
+					<#assign isListValue =false/>
+						<#if opt.listValue??>
+							<#list opt.listValue as picker>
+								<#if picker==ccc>
+									<#assign isListValue =true/>
+									<#break />
+								</#if>
+							</#list>
+						</#if>
+						<#if !isListValue>
+							<#--Si es un combo-->
+							cmb${ccc}.setFocus();
+						</#if>
+		
 					<#break />
 				</#if>
 			</#list>
