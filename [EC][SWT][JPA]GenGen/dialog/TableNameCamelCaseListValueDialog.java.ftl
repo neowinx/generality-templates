@@ -281,7 +281,7 @@ public class ${entityName}ListValueDialog extends Dialog {
 	}
 
 	private Long countQuery(EntityManager em) {
-		return (Long) em.createQuery(" select count(o) from Pais o ")
+		return (Long) em.createQuery(" select count(o) from ${entityName} o ")
 				.getSingleResult();
 	}
 
